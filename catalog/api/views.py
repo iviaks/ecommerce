@@ -26,6 +26,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
         store_id = self.request.query_params.get('store')
-        if store_id and Store.objects.filter(id=store_id).exists():
-            return queryset.filter(store_id=store_id)
+        if store_id is not None:
+            if Store.objects.filter(id=store_id).exists():
+                return queryset.filter(store_id=store_id)
+            return None
         return queryset
